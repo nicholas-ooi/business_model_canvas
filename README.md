@@ -4,7 +4,7 @@ There are other BMC generators available but I realized some of them are paid an
 I preferred a snapped version, which you type and go no need to worry so much on alignment issues, yet keeping it originally professional and clean black text..  
 If you realize, this app is similar to how Trello task creation works.  
 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![alt text](https://github.com/nicholas-ooi/business_model_canvas/blob/master/images/screenshot.gif "Logo Title Text 1")
 
 ### Why build this?  
 I built this in the intention to have fun, learn and try out Electron, Vue, ElementUI, and webpack features, opening the source code and to time myself  
