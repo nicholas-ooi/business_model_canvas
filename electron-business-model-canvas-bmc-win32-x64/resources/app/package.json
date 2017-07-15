@@ -1,0 +1,43 @@
+{
+  "name": "electron-business-model-canvas-bmc",
+  "version": "1.0.0",
+  "description": "A Business Model Canvas (BMC) creator just for fun",
+  "main": "main.js",
+  "scripts": {
+    "start": "npm run compile && npm run electron",
+    "compile": "webpack --config webpack.config.js",
+    "electron": "electron .",
+    "exe":"electron-packager . --overwrite"
+  },
+  "repository": "",
+  "keywords": [
+    "Electron",
+    "BMC",
+    "Business Model Canvas"
+  ],
+  "author": "nicholas-ooi",
+  "license": "",
+  "devDependencies": {
+    "electron": "~1.6.2"
+  },
+  "dependencies": {
+    "babel-core": "^6.1.2",
+    "babel-loader": "^6.1.0",
+    "babel-plugin-transform-runtime": "^6.1.2",
+    "babel-preset-es2015": "^6.1.2",
+    "babel-preset-stage-0": "^6.1.2",
+    "babel-runtime": "^5.8.0",
+    "css-loader": "^0.28.4",
+    "electron-packager": "^8.7.2",
+    "element-ui": "^1.3.7",
+    "file-loader": "^0.11.2",
+    "lodash": "^4.17.4",
+    "style-loader": "^0.18.2",
+    "url-loader": "^0.5.9",
+    "vue": "^2.4.1",
+    "vue-loader": "^12.2.2",
+    "vuedraggable": "^2.14.1",
+    "vueify": "^9.4.1",
+    "webpack": "^3.2.0"
+  }
+}
