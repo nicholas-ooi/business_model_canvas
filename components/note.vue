@@ -82,7 +82,7 @@ p
     <p v-if="!hide">
       {{moreText}}
     </p>
-    <draggable v-if="data" class="blocker" :style="heightObj" v-model="data.values" :options="{group:'notes'}" @start="drag=true" @end="drag=false">
+    <draggable v-if="data" class="blocker" :style="heightObj" v-model="data.values" v-bind="{group:'notes'}" @start="drag=true" @end="drag=false">
       <transition-group :style="heightObj" class="blocker">
         <div  v-for="content, key in data.values" :key="key" class="note">
           <el-card v-if="!hide" class="box-card">
