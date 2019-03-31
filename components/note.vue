@@ -31,8 +31,8 @@ p
 
 .column
 {
-  border: 1px solid #333;
-  padding:10px;
+  border: none;
+  padding:30px;
 }
 
 .note
@@ -59,9 +59,12 @@ p
 .formattedText
 {
   font-size:12px;
-  margin:5px;
-  padding:5px;
+  padding:10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   border:1px solid #333;
+  cursor: pointer;
+  overflow-wrap: break-word;
 }
 
 </style>
@@ -70,32 +73,32 @@ p
 
   <el-col class="column" :span="spanValue">
     <h1 class="header">{{header}}</h1>
-    <el-button v-if="!hideAll" size="small" @click="add" type="primary" style="float: right;">
+    <el-button v-if="!hide" size="small" @click="add" type="primary" style="float: right;">
       <i class="el-icon-plus">
       </i>
     </el-button>
     <div class="clearfix">
     </div>
-    <p v-if="!hideAll">
+    <p v-if="!hide">
       {{moreText}}
     </p>
-    <draggable class="blocker" :style="heightObj" v-model="dataObj.values" :options="{group:'notes'}" @start="drag=true" @end="drag=false">
+    <draggable class="blocker" :style="heightObj" v-model="data.values" :options="{group:'notes'}" @start="drag=true" @end="drag=false">
       <transition-group :style="heightObj" class="blocker">
-        <div  v-for="content in dataObj.values" :key="content.id" class="note">
-          <el-card v-if="!hideAll" class="box-card">
+        <div  v-for="content, key in data.values" :key="key" class="note">
+          <el-card v-if="!hide" class="box-card">
             <div v-if="content.layout==1" slot="header">
               <el-button @click="remove(content)" size="small" style="float: right;" type="danger">
-                <i class="el-icon-circle-cross"></i>
+                <i class="el-icon-close"></i>
               </el-button>
               <div class="clearfix">
               </div>
             </div>
             <div class="text item">
-              <el-input @blur="hideBox(content)" @focus="showBox(content)" type="textarea" :autosize="autosize" v-model="content.value">
+              <el-input @blur="hideBox(content)" @focus="showBox(content)" type="textarea" :autosize="autosize" v-model="content.value" @change.native="updateContent">
               </el-input>
             </div>
           </el-card>
-          <p v-if="hideAll" class="formattedText">
+          <p v-if="hide" class="formattedText">
             {{content.value}}
           </p>
         </div>
@@ -115,38 +118,30 @@ export default {
     return {
       header: this.title,
       spanValue: this.span,
-      dataObj: this.data,
       text: this.moreText,
       heightObj: {minHeight: this.minHeight + 'px' },
       autosize: { minRows: 1},
-      hideAll: this.hide
-    }
-  },
-  watch:
-  {
-    hide(hide)
-    {
-      this.hideAll = hide
-    },
-    data(data)
-    {
-      this.dataObj = data
     }
   },
   methods:
   {
     add()
     {
-      this.dataObj.values.length > 0
+      this.data.values.length > 0
       ?
-      this.dataObj.values.push({id:this.dataObj.values[this.dataObj.values.length-1].id+1,layout:1,value:""})
+      this.data.values.push({id:this.data.values[this.data.values.length-1].id+1,layout:1,value:""})
       :
-      this.dataObj.values.push({id:0,layout:1,value:""})
-    }
-    ,
+      this.data.values.push({id:0,layout:1,value:""})
+      this.$emit("save-data")
+    },
+    updateContent()
+    {
+      this.$emit("save-data")
+    },
     remove(item)
     {
-      this.dataObj.values.splice(this.dataObj.values.indexOf(item),1)
+      this.data.values.splice(this.data.values.indexOf(item),1)
+      this.$emit("save-data")
     },
     showBox(content)
     {

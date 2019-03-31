@@ -7,10 +7,19 @@ body {
   font-family: "verdana";
 }
 
+.container
+{
+  text-align: left;
+}
+
 .wrapper {
-  border: 3px solid #000;
   background: #fff;
-  padding: 10px;
+  padding: 30px;
+  -webkit-box-shadow: -5px 18px 85px 3px rgba(255,255,255,0.3);
+  -moz-box-shadow: -5px 18px 85px 3px rgba(255,255,255,0.3);
+  box-shadow: -5px 18px 85px 3px rgba(255,255,255,0.3);
+
+
 }
 
 .title {
@@ -46,56 +55,47 @@ body {
 <template>
 
   <div class="wrapper">
-    <img v-if="!hideTrump" :style="borderRadius" class="image" src="images/trump2.gif" />
-    <div class="left">
-      <h1 class="title">
-        <b v-if="!hideTrump">Trump's</b> Business Model Canvas
-      </h1>
-      <p v-if="!hideAll">
-        Press 'CTRL + h' to hide all buttons and trump of course! 'CTRL + g' to hide trump!
-      </p>
-    </div>
-    <div v-if="!hideAll" class="titleOption">
-      <el-button @click="importFile" type="primary" >
-        Import
-      </el-button>
-      <el-button @click="save" type="primary">
-        Save
-      </el-button>
-    </div>
+    <el-button v-show="!hide" size="medium" @click="clear" type="success" style="float: right;">
+      Clear
+    </el-button>
+    <p v-show="!hide" style="float: right;margin-right:10px;">
+      Your information are auto-saved when you make any changes on your BMC
+    </p>
+    <br />
+    <br />
     <div style="clear:both;">
     </div>
-    <el-row class="flex">
-      <note :min-height="400" :title="'Key Partners'" :more-text="'Who are your business partners?'" :span="4" :data="contents[0]" :hide="hideAll">
+    <el-row class="flex" style="border:1px solid #000; border-bottom:none;">
+      <note @save-data="saveData" style="border-right:1px solid #000;" :min-height="400" :title="'Key Partners'" :more-text="'Who are your business partners?'" :span="4" :data="contents[0]" :hide="hideAll">
       </note>
-      <el-col :span="5">
+      <el-col :span="6" style="border-right:1px solid #000;">
         <el-row>
-          <note  :min-height="230" :title="'Key Activities'" :more-text="'What does your business do?'" :span="24" :data="contents[1]" :hide="hideAll">
+          <note @save-data="saveData" style="border-bottom:1px solid #000;" :min-height="200" :title="'Key Activities'" :more-text="'What does your business do?'" :span="24" :data="contents[1]" :hide="hideAll">
           </note>
         </el-row>
         <el-row>
-          <note  :min-height="230" :title="'Key Resources'" :more-text="'What do you have for your business?'" :span="24" :data="contents[2]" :hide="hideAll">
+          <note @save-data="saveData"  :min-height="200" :title="'Key Resources'" :more-text="'What do you have in your business?'" :span="24" :data="contents[2]" :hide="hideAll">
           </el-row>
         </el-col>
-        <note  :min-height="400" :title="'Value Proposition'" :more-text="'What does your business offer?'" :span="5" :data="contents[3]" :hide="hideAll">
+        <note @save-data="saveData" style="border-right:1px solid #000;" :min-height="400" :title="'Value Proposition'" :more-text="'What does your business offer?'" :span="5" :data="contents[3]" :hide="hideAll">
         </note>
-        <el-col :span="6">
+        <el-col :span="6" style="border-right:1px solid #000;">
           <el-row>
-            <note  :min-height="230" :title="'Customer Relationships'" :more-text="'How do you keep your customers?'" :span="24" :data="contents[4]" :hide="hideAll">
+            <note @save-data="saveData" style="border-bottom:1px solid #000;" :min-height="200" :title="'Customer Relationships'" :more-text="'How do you keep your customers?'" :span="24" :data="contents[4]" :hide="hideAll">
             </note>
           </el-row>
           <el-row>
-            <note  :min-height="230" :title="'Channels'" :more-text="'Where do you sell to your customers?'" :span="24" :data="contents[5]" :hide="hideAll">
+            <note  @save-data="saveData" :min-height="200" :title="'Channels'" :more-text="'Where do you sell to your customers?'" :span="24" :data="contents[5]" :hide="hideAll">
             </note>
           </el-row>
         </el-col>
-        <note  :min-height="400" :title="'Customer Segments'" :more-text="'What kind of customers do you have?'" :span="4" :data="contents[6]" :hide="hideAll">
+        <note  @save-data="saveData" :min-height="400" :title="'Customer Segments'" :more-text="'What kind of customers do you have?'" :span="4" :data="contents[6]" :hide="hideAll">
         </note>
       </el-row>
-      <el-row class="flex">
-        <note  :min-height="250" :title="'Cost Structure'" :more-text="'What and how much is your business expenses?'" :span="12" :data="contents[7]" :hide="hideAll">
+      <el-row class="flex" style="border:1px solid #000;">
+        <note  @save-data="saveData" style="border-right:1px solid #000;" :min-height="250" :title="'Cost Structure'" :more-text="'What and how much is your business expenses?'" :span="12" :data="contents[7]" :hide="hideAll">
         </note>
-        <note  :min-height="250" :title="'Revenue Streams'" :more-text="'How does your business make money?'" :span="12" :data="contents[8]" :hide="hideAll">
+        <note  @save-data="saveData" :min-height="250" :title="'Revenue Streams'" :more-text="'How does your business make money?'" :span="12" :data="contents[8]" :hide="hideAll">
         </note>
       </el-row>
     </div>
@@ -106,19 +106,42 @@ body {
 
   import draggable from 'vuedraggable'
   import note from './note.vue'
-  const fs = require("fs")
-  const app = require('electron').remote
-  const {dialog} = require('electron').remote
 
   export default {
     components: {
       draggable,
       note,
     },
+
     data() {
 
+      let contents = this.$cookies.get('nick-bmc')
+      if(contents == null)
+      {
+        contents = this.getDefaultContents()
+      }
+
       return {
-        contents:[
+        contents:contents,
+        hideAll: false,
+      }
+    },
+
+
+
+    mounted() {
+      window.addEventListener('keydown', (event) => {
+        if (event.keyCode == 18 && event.ctrlKey) {
+          this.hideAll = !this.hideAll
+        }
+      })
+    },
+
+    methods: {
+
+      getDefaultContents()
+      {
+        return [
           {id:0, values:[]},
           {id:1, values:[]},
           {id:2, values:[]},
@@ -128,75 +151,26 @@ body {
           {id:6, values:[]},
           {id:7, values:[]},
           {id:8, values:[]}
-        ],
-        hideTrump: false,
-        hideAll: false,
-        borderRadius:{borderRadius:50+"%"}
-      }
-    },
-    mounted() {
-      window.addEventListener('keydown', (event) => {
-        if (event.keyCode == 71 && event.ctrlKey) {
-          this.hideTrump = !this.hideTrump
-        }
-        else if (event.keyCode == 72 && event.ctrlKey) {
-          this.hideAll = !this.hideAll
-          this.hideTrump = this.hideAll
-        }
-      })
+        ]
+      },
 
-      let z = 10
-      setInterval(()=>{
-        this.borderRadius = {borderRadius:(z+=2)+"%"}
-        z = z >=100 ? 10 : z
-      },100)
-    },
-    methods: {
-
-      save()
+      clear()
       {
-        try {
-          let dialog = app.dialog;
-          dialog.showSaveDialog((fileName) => {
-            if (fileName === undefined){
-              this.$message('file not found')
-              return;
-            }
-            fs.writeFile(fileName, JSON.stringify(this.contents), (err) => {
-              if(err){
-                this.$message('Failed to save!')
-              }
-
-              this.$message('Data saved!')
-            });
-          });
-        } catch (e) {
-          this.$message(e)
+        if(confirm("Are you sure to clear the business model canvas?"))
+        {
+          this.contents = this.getDefaultContents()
+          this.saveData()
         }
       },
-      importFile ()
+
+      saveData()
       {
-        try {
-          dialog.showOpenDialog((fileNames) => {
-            if(fileNames === undefined){
-              this.$message('file not found')
-              return;
-            }
+        this.$cookies.set('nick-bmc', this.contents, {
+          path: '/',
+          maxAge: 60 * 60 * 24 * 7
+        })
+      },
 
-            fs.readFile(fileNames[0], 'utf-8', (err, data) => {
-              if(err){
-                this.$message('Failed to import!')
-                return;
-              }
-              this.contents = JSON.parse(data)
-              this.$message('Data imported!')
-
-            });
-          });
-        } catch (e) {
-          this.$message(e)
-        }
-      }
     }
   }
 
