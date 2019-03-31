@@ -8,17 +8,20 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "deploy": "push-dir --dir=dist --branch=gh-pages --cleanup",
+    "build:gh-pages": "cross-env DEPLOY_ENV=GH_PAGES nuxt build",
+    "generate:gh-pages": "cross-env DEPLOY_ENV=GH_PAGES nuxt generate"
   },
   "dependencies": {
     "cookie-universal-nuxt": "^2.0.14",
-    "cross-env": "^5.2.0",
     "element-ui": "^2.7.0",
     "nuxt": "^2.4.0",
     "nuxt-element-ui": "^1.0.10",
     "vuedraggable": "^2.20.0"
   },
   "devDependencies": {
+    "cross-env": "^5.2.0",
     "nodemon": "^1.18.9"
   }
 }

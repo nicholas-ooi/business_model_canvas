@@ -1,6 +1,15 @@
 import pkg from './package'
 
+const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
+  router: {
+    base: '/business_model_canvas/'
+  }
+} : {}
+
 export default {
+
+  ...routerBase,
+
   mode: 'universal',
 
   /*
