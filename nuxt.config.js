@@ -52,6 +52,12 @@ export default {
     'cookie-universal-nuxt'
   ],
 
+  generate: {
+    minify: {
+      collapseWhitespace: false
+    }
+  },
+
   /*
   ** Build configuration
   */
