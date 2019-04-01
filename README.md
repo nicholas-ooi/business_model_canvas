@@ -1,5 +1,7 @@
 # bmc
 
+You can check out the demo at <https://nicholas-ooi.github.io/business_model_canvas/>
+
 > bmc by nick
 
 ## Build Setup
