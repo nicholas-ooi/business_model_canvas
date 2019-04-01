@@ -82,28 +82,34 @@ p
     <p v-show="!hide">
       {{moreText}}
     </p>
-    <draggable v-if="data" class="blocker" :style="heightObj" v-model="data.values" v-bind="{group:'notes'}" @start="drag=true" @end="drag=false">
-      <transition-group :style="heightObj" class="blocker">
-        <div  v-for="content, key in data.values" :key="key" class="note">
-          <el-card v-show="!hide" class="box-card">
-            <div v-show="content.layout==1" slot="header">
-              <el-button @click="remove(content)" size="small" style="float: right;" type="danger">
-                <i class="el-icon-close"></i>
-              </el-button>
-              <div class="clearfix">
-              </div>
+    
+    <no-ssr>
+      <div v-if="data">
+        <draggable class="blocker" :style="heightObj" v-model="data.values" v-bind="{group:'notes'}" @start="drag=true" @end="drag=false">
+          <transition-group :style="heightObj" class="blocker">
+            <div  v-for="content, key in data.values" :key="key" class="note">
+              <el-card v-show="!hide" class="box-card">
+                <div v-show="content.layout==1" slot="header">
+                  <el-button @click="remove(content)" size="small" style="float: right;" type="danger">
+                    <i class="el-icon-close"></i>
+                  </el-button>
+                  <div class="clearfix">
+                  </div>
+                </div>
+                <div class="text item">
+                  <el-input @blur="hideBox(content)" @focus="showBox(content)" type="textarea" :autosize="autosize" v-model="content.value" @change.native="updateContent">
+                  </el-input>
+                </div>
+              </el-card>
+              <p v-show="hide" class="formattedText">
+                {{content.value}}
+              </p>
             </div>
-            <div class="text item">
-              <el-input @blur="hideBox(content)" @focus="showBox(content)" type="textarea" :autosize="autosize" v-model="content.value" @change.native="updateContent">
-              </el-input>
-            </div>
-          </el-card>
-          <p v-show="hide" class="formattedText">
-            {{content.value}}
-          </p>
-        </div>
-      </transition-group>
-    </draggable>
+          </transition-group>
+        </draggable>
+      </div>
+    </no-ssr>
+
   </el-col>
 
 </template>
