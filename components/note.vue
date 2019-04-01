@@ -73,20 +73,20 @@ p
 
   <el-col class="column" :span="spanValue">
     <h1 class="header">{{header}}</h1>
-    <el-button v-if="!hide" size="small" @click="add" type="primary" style="float: right;">
+    <el-button v-show="!hide" size="small" @click="add" type="primary" style="float: right;">
       <i class="el-icon-plus">
       </i>
     </el-button>
     <div class="clearfix">
     </div>
-    <p v-if="!hide">
+    <p v-show="!hide">
       {{moreText}}
     </p>
-    <draggable v-if="data" class="blocker" :style="heightObj" v-model="data.values" v-bind="{group:'notes'}" @start="drag=true" @end="drag=false">
+    <draggable v-show="data" class="blocker" :style="heightObj" v-model="data.values" v-bind="{group:'notes'}" @start="drag=true" @end="drag=false">
       <transition-group :style="heightObj" class="blocker">
         <div  v-for="content, key in data.values" :key="key" class="note">
-          <el-card v-if="!hide" class="box-card">
-            <div v-if="content.layout==1" slot="header">
+          <el-card v-show="!hide" class="box-card">
+            <div v-show="content.layout==1" slot="header">
               <el-button @click="remove(content)" size="small" style="float: right;" type="danger">
                 <i class="el-icon-close"></i>
               </el-button>
@@ -98,7 +98,7 @@ p
               </el-input>
             </div>
           </el-card>
-          <p v-if="hide" class="formattedText">
+          <p v-show="hide" class="formattedText">
             {{content.value}}
           </p>
         </div>
