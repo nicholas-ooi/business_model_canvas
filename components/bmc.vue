@@ -68,7 +68,7 @@ body {
     <el-row class="flex" style="border:1px solid #000; border-bottom:none;">
       <note @save-data="saveData" style="border-right:1px solid #000;" :min-height="400" :title="'Key Partners'" :more-text="'Who are your business partners?'" :span="4" :data="contents[0]" :hide="hideAll">
       </note>
-      <el-col :span="6" style="border-right:1px solid #000;">
+      <!-- <el-col :span="6" style="border-right:1px solid #000;">
         <el-row>
           <note @save-data="saveData" style="border-bottom:1px solid #000;" :min-height="200" :title="'Key Activities'" :more-text="'What does your business do?'" :span="24" :data="contents[1]" :hide="hideAll">
           </note>
@@ -97,7 +97,7 @@ body {
         </note>
         <note  @save-data="saveData" :min-height="250" :title="'Revenue Streams'" :more-text="'How does your business make money?'" :span="12" :data="contents[8]" :hide="hideAll">
         </note>
-      </el-row>
+      </el-row> -->
     </div>
 
   </template>
