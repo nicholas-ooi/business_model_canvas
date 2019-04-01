@@ -68,110 +68,116 @@ body {
     <el-row class="flex" style="border:1px solid #000; border-bottom:none;">
       <note @save-data="saveData" style="border-right:1px solid #000;" :min-height="400" :title="'Key Partners'" :more-text="'Who are your business partners?'" :span="4" :data="contents[0]" :hide="hideAll">
       </note>
-      <!-- <el-col :span="6" style="border-right:1px solid #000;">
+      <el-col :span="6" style="border-right:1px solid #000;">
         <el-row>
           <note @save-data="saveData" style="border-bottom:1px solid #000;" :min-height="200" :title="'Key Activities'" :more-text="'What does your business do?'" :span="24" :data="contents[1]" :hide="hideAll">
           </note>
         </el-row>
         <el-row>
           <note @save-data="saveData"  :min-height="200" :title="'Key Resources'" :more-text="'What do you have in your business?'" :span="24" :data="contents[2]" :hide="hideAll">
-          </el-row>
-        </el-col>
-        <note @save-data="saveData" style="border-right:1px solid #000;" :min-height="400" :title="'Value Proposition'" :more-text="'What does your business offer?'" :span="5" :data="contents[3]" :hide="hideAll">
-        </note>
-        <el-col :span="6" style="border-right:1px solid #000;">
-          <el-row>
-            <note @save-data="saveData" style="border-bottom:1px solid #000;" :min-height="200" :title="'Customer Relationships'" :more-text="'How do you keep your customers?'" :span="24" :data="contents[4]" :hide="hideAll">
-            </note>
-          </el-row>
-          <el-row>
-            <note  @save-data="saveData" :min-height="200" :title="'Channels'" :more-text="'Where do you sell to your customers?'" :span="24" :data="contents[5]" :hide="hideAll">
-            </note>
-          </el-row>
-        </el-col>
-        <note  @save-data="saveData" :min-height="400" :title="'Customer Segments'" :more-text="'What kind of customers do you have?'" :span="4" :data="contents[6]" :hide="hideAll">
-        </note>
-      </el-row>
-      <el-row class="flex" style="border:1px solid #000;">
+          </note>
+        </el-row>
+      </el-col>
+      <note @save-data="saveData" style="border-right:1px solid #000;" :min-height="400" :title="'Value Proposition'" :more-text="'What does your business offer?'" :span="5" :data="contents[3]" :hide="hideAll">
+      </note>
+
+      <el-col :span="6" style="border-right:1px solid #000;">
+        <el-row>
+          <note @save-data="saveData" style="border-bottom:1px solid #000;" :min-height="200" :title="'Customer Relationships'" :more-text="'How do you keep your customers?'" :span="24" :data="contents[4]" :hide="hideAll">
+          </note>
+        </el-row>
+        <el-row>
+          <note  @save-data="saveData" :min-height="200" :title="'Channels'" :more-text="'Where do you sell to your customers?'" :span="24" :data="contents[5]" :hide="hideAll">
+          </note>
+        </el-row>
+      </el-col>
+      <note  @save-data="saveData" :min-height="400" :title="'Customer Segments'" :more-text="'What kind of customers do you have?'" :span="4" :data="contents[6]" :hide="hideAll">
+      </note>
+    </el-row>
+    <el-row class="flex" style="border:1px solid #000;">
+      <el-col>
         <note  @save-data="saveData" style="border-right:1px solid #000;" :min-height="250" :title="'Cost Structure'" :more-text="'What and how much is your business expenses?'" :span="12" :data="contents[7]" :hide="hideAll">
         </note>
+      </el-col>
+      <el-col>
         <note  @save-data="saveData" :min-height="250" :title="'Revenue Streams'" :more-text="'How does your business make money?'" :span="12" :data="contents[8]" :hide="hideAll">
         </note>
-      </el-row> -->
-    </div>
+      </el-col>
+    </el-row>
+  </div>
 
-  </template>
+</template>
 
-  <script>
+<script>
 
-  import draggable from 'vuedraggable'
-  import note from './note.vue'
+import draggable from 'vuedraggable'
+import note from './note.vue'
 
-  export default {
-    components: {
-      draggable,
-      note,
+export default {
+  components: {
+    draggable,
+    note,
+  },
+
+  data() {
+
+    let contents = this.$cookies.get('nick-bmc')
+    if(contents == null)
+    {
+      contents = this.getDefaultContents()
+    }
+
+    return {
+      contents:contents,
+      hideAll: false,
+    }
+  },
+
+
+
+  mounted() {
+    window.addEventListener('keydown', (event) => {
+      if (event.keyCode == 18 && event.ctrlKey) {
+        this.hideAll = !this.hideAll
+      }
+    })
+  },
+
+  methods: {
+
+    getDefaultContents()
+    {
+      return [
+        {id:0, values:[]},
+        {id:1, values:[]},
+        {id:2, values:[]},
+        {id:3, values:[]},
+        {id:4, values:[]},
+        {id:5, values:[]},
+        {id:6, values:[]},
+        {id:7, values:[]},
+        {id:8, values:[]}
+      ]
     },
 
-    data() {
-
-      let contents = this.$cookies.get('nick-bmc')
-      if(contents == null)
+    clear()
+    {
+      if(confirm("Are you sure to clear the business model canvas?"))
       {
-        contents = this.getDefaultContents()
-      }
-
-      return {
-        contents:contents,
-        hideAll: false,
+        this.contents = this.getDefaultContents()
+        this.saveData()
       }
     },
 
-
-
-    mounted() {
-      window.addEventListener('keydown', (event) => {
-        if (event.keyCode == 18 && event.ctrlKey) {
-          this.hideAll = !this.hideAll
-        }
+    saveData()
+    {
+      this.$cookies.set('nick-bmc', this.contents, {
+        path: '/',
+        maxAge: 60 * 60 * 24 * 7
       })
     },
 
-    methods: {
-
-      getDefaultContents()
-      {
-        return [
-          {id:0, values:[]},
-          {id:1, values:[]},
-          {id:2, values:[]},
-          {id:3, values:[]},
-          {id:4, values:[]},
-          {id:5, values:[]},
-          {id:6, values:[]},
-          {id:7, values:[]},
-          {id:8, values:[]}
-        ]
-      },
-
-      clear()
-      {
-        if(confirm("Are you sure to clear the business model canvas?"))
-        {
-          this.contents = this.getDefaultContents()
-          this.saveData()
-        }
-      },
-
-      saveData()
-      {
-        this.$cookies.set('nick-bmc', this.contents, {
-          path: '/',
-          maxAge: 60 * 60 * 24 * 7
-        })
-      },
-
-    }
   }
+}
 
-  </script>
+</script>
