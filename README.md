@@ -4,10 +4,10 @@ You can check out the demo at <https://nicholas-ooi.github.io/business_model_can
 
 # What you can do
 
-Add a new plan or idea on your canvas
-Drag and drop them to the respective segments
-Safely type them and the information will be auto-saved on your computer. Data are safely only stored on your computer, you can clear browser cookie to remove it.
-Press CTRL + ALT to hide other fancy stuff
+1. Add a new plan or idea on your canvas
+1. Drag and drop them to the respective segments
+1. Safely type them and the information will be auto-saved on your computer. Data are safely only stored on your computer, you can clear 1. browser cookie to remove it.
+1. Press CTRL + ALT to hide other fancy stuff
 
 > bmc by nick
 
