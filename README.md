@@ -2,6 +2,8 @@
 
 You can check out the demo at <https://nicholas-ooi.github.io/business_model_canvas/>
 
+Press CTRL + ALT to hide other fancy stuff
+
 > bmc by nick
 
 ## Build Setup
