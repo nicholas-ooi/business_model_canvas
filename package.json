@@ -16,12 +16,12 @@
   "dependencies": {
     "cookie-universal-nuxt": "^2.0.14",
     "element-ui": "^2.7.0",
-    "nuxt": "^2.15.8",
+    "nuxt": "^3.7.4",
     "nuxt-element-ui": "^1.0.10",
     "vuedraggable": "^2.20.0",
     "cross-env": "^5.2.0"
   },
   "devDependencies": {
-    "nodemon": "^1.18.9"
+    "nodemon": "^3.0.1"
   }
 }
